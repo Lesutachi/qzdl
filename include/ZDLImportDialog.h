@@ -20,7 +20,7 @@
 #ifndef _ZDLIMPORTDIALOG_HPP_
 #define _ZDLIMPORTDIALOG_HPP_
 
-#include <QtGui>
+#include <QDialog>
 
 class ZDLImportDialog : public QDialog {
 	Q_OBJECT

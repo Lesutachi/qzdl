@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-#include <QtGui>
+#include <QCheckBox>
 #include <QObject>
 #include "ZDLWidget.h"
 #include "ZDLSourcePortList.h"

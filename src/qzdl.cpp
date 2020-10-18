@@ -114,7 +114,9 @@ int main( int argc, char **argv ){
 	QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
 #endif
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
 	QApplication::setGraphicsSystem("native");
+#endif
 	QApplication a( argc, argv );
 	qapp = &a;
 	ZDLConfigurationManager::setArgv(eatenArgs);

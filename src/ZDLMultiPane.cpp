@@ -18,7 +18,9 @@
  */
  
 
-#include <QtGui>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QFileDialog>
 #include <QApplication>
 #include <QComboBox>
 #include "ZDLConfigurationManager.h"

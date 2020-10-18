@@ -20,6 +20,8 @@
 #include "ZDLAboutDialog.h"
 #include "ZDLConfigurationManager.h"
 #include <QDialogButtonBox>
+#include <QVBoxLayout>
+#include <QLabel>
 #include "bmp_logo.xpm"
 
 ZDLAboutDialog::ZDLAboutDialog(ZDLWidget *parent):QDialog(parent){

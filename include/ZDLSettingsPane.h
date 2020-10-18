@@ -17,7 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-#include <QtGui>
+#include <QListWidget>
+#include <QComboBox>
+#include <QItemDelegate>
 #include <QObject>
 #include <QStyledItemDelegate>
 #include "ZDLWidget.h"

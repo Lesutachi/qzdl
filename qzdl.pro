@@ -22,6 +22,7 @@ UI_DIR = uic
 RCC_DIR = rcc
 
 QT += core gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += release
 DEFINES += _ZDL_NO_WARNINGS _ZDL_NO_WFA NOMINMAX QT_HAVE_MMX QT_HAVE_3DNOW QT_HAVE_SSE QT_HAVE_MMXEXT QT_HAVE_SSE2
 
@@ -37,6 +38,10 @@ static {
     *g++|*g++-64|*g++-32 {
         QMAKE_LFLAGS += -static-libstdc++ -static-libgcc -Wl,--as-needed
     }
+}
+
+linux*: {
+    LIBS += -no-pie
 }
 
 INCLUDEPATH += \

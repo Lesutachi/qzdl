@@ -37,6 +37,14 @@
 #define QFD_QT_SEP(x)       x
 #endif
 
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+
 extern QDebug *zdlDebug;
 
 #if defined(ZDL_BLACKBOX)

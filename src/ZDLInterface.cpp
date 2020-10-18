@@ -17,7 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGui>
+#include <QLabel>
+#include <QMessageBox>
+#include <QMenu>
+#include <QAction>
+#include <QFileDialog>
 #include <QApplication>
 #include <QProcessEnvironment>
 #include <QMainWindow>

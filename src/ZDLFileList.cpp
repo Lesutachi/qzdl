@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <QFileDialog>
 #include "ZDLFileList.h"
 #include "ZDLFileListable.h"
 #include "ZDLConfigurationManager.h"

@@ -17,7 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <QtGui>
+#include <QAction>
+#include <QMessageBox>
 #include <QRegExp>
 #include <QMainWindow>
 
@@ -598,7 +599,7 @@ QStringList ParseParams(const QString& params)
 	switch (wordexp(qPrintable(params), &result, 0)) {
 		case 0:
 			for (size_t i=0; i<result.we_wordc; i++)
-				plist<<result.we_wordv[i];
+				plist<<result.we_wordv[i]; // fall-through
 		case WRDE_NOSPACE:	//If error is WRDE_NOSPACE - there is a possibilty that at least some part of wordexp_t.we_wordv was allocated
 			wordfree (&result);
 	}

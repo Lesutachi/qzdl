@@ -20,7 +20,8 @@
 #ifndef _ZLISTWIDGET_H_
 #define _ZLISTWIDGET_H_
 
-#include <QtGui>
+#include <QHBoxLayout>
+#include <QPushButton>
 #include <QObject>
 #include "ZDLWidget.h"
 #include "ZDLListable.h"

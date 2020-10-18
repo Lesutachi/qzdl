@@ -20,7 +20,9 @@
 #ifndef _MULTIPANE_H_
 #define _MULTIPANE_H_
 
-#include <QtGui>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QObject>
 #include "ZDLWidget.h"
 
