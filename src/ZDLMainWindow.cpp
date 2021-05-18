@@ -2,17 +2,17 @@
  * This file is part of qZDL
  * Copyright (C) 2007-2010  Cody Harris
  * Copyright (C) 2018-2019  Lcferrum
- * 
+ *
  * qZDL is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -65,7 +65,7 @@ QString ZDLMainWindow::getWindowTitle(){
 
 }
 
-ZDLMainWindow::ZDLMainWindow(QWidget *parent): 
+ZDLMainWindow::ZDLMainWindow(QWidget *parent):
 	QMainWindow(parent)
 {
 	LOGDATAO() << "New main window " << DPTR(this) << endl;
@@ -209,7 +209,7 @@ void ZDLMainWindow::handleImport(){
 									break;
 								}
 
-							}	
+							}
 							userconf.writeINI(userConfPath);
 							break;
 						case ZDLImportDialog::ASKLATER:
@@ -358,12 +358,12 @@ QString ExpandEnvironmentStringsWrapper(QString args)
 		wchar_t* expanded_buf=new wchar_t[buf_len];
 
 		//Ensuring that returned length is expected length
-		if (ExpandEnvironmentStrings(args.utf16(), expanded_buf, buf_len)<=buf_len) 
+		if (ExpandEnvironmentStrings(args.utf16(), expanded_buf, buf_len)<=buf_len)
 			args.setUtf16(expanded_buf, buf_len-1);
 
 		delete[] expanded_buf;
 	}
-	
+
 	return args;
 }
 
@@ -439,6 +439,7 @@ QString ZDLMainWindow::getArgumentsString(bool native_sep)
 	if (section){
 		QVector<ZDLLine*> fileVctr;
 		section->getRegex("^file[0-9]+$", fileVctr);
+		section->getRegex("^fileR[0-9]+$", fileVctr);
 
 		if (fileVctr.size() > 0){
 			for(int i = 0; i < fileVctr.size(); i++){
@@ -593,7 +594,7 @@ QStringList ZDLMainWindow::getArgumentsList()
 QStringList ParseParams(const QString& params)
 {
 	QStringList plist;
-	
+
 	wordexp_t result;
 
 	switch (wordexp(qPrintable(params), &result, 0)) {
@@ -677,6 +678,7 @@ QStringList ZDLMainWindow::getArgumentsList()
 	if (section){
 		QVector<ZDLLine*> fileVctr;
 		section->getRegex("^file[0-9]+$", fileVctr);
+		section->getRegex("^fileR[0-9]+$", fileVctr);
 
 		if (fileVctr.size() > 0){
 			for(int i = 0; i < fileVctr.size(); i++){

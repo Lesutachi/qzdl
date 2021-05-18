@@ -2,17 +2,17 @@
  * This file is part of qZDL
  * Copyright (C) 2007-2010  Cody Harris
  * Copyright (C) 2018-2019  Lcferrum
- * 
+ *
  * qZDL is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,7 +29,7 @@
 #include "ZDLConfigurationManager.h"
 #include "ZDLSettingsPane.h"
 
-void AlwaysFocusedDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const 
+void AlwaysFocusedDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	QStyleOptionViewItem new_option(option);
 	if (new_option.state&QStyle::State_Selected) new_option.state=new_option.state|QStyle::State_Active;
@@ -140,8 +140,9 @@ QStringList ZDLSettingsPane::getFilesMaps(){
 	if (ZDLConf *zconf=ZDLConfigurationManager::getActiveConfiguration()) {
 		if (ZDLSection *section=zconf->getSection("zdl.save")) {
 			QVector<ZDLLine*> vctr;
-			
+
 			section->getRegex("^file[0-9]+$", vctr);
+			section->getRegex("^fileR[0-9]+$", vctr);
 			if (vctr.size()) {
 				QStringList maps;
 
@@ -179,13 +180,13 @@ bool ZDLSettingsPane::naturalSortLess(const QString &left, const QString &right)
 				//Check if these are digit characters
 				l_is_digit=li->isDigit();
 				r_is_digit=ri->isDigit();
-				
+
 				//If both characters are digits, we continue in digit mode
 				if (l_is_digit&&r_is_digit) {
 					mode_letter=false;
 					break;
 				}
-				
+
 				//If one of the characters is a digit, we have a result
 				if (l_is_digit) return true;
 				if (r_is_digit) return false;
@@ -238,7 +239,7 @@ bool ZDLSettingsPane::naturalSortLess(const QString &left, const QString &right)
 
 void ZDLSettingsPane::reloadMapList(){
 	LOGDATAO() << "reloadMapList START" << endl;
-	
+
 	warpCombo->clear();
 	warpCombo->addItem("(Default)");
 
@@ -437,7 +438,7 @@ void ZDLSettingsPane::newConfig(){
 					set = 1;
 					IWADList->setCurrentRow(i);
 					break;
-				}	
+				}
 			}
 		}
 		if(!set){

@@ -2,17 +2,17 @@
  * This file is part of qZDL
  * Copyright (C) 2007-2011  Cody Harris
  * Copyright (C) 2018-2019  Lcferrum
- * 
+ *
  * qZDL is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -69,10 +69,12 @@ QLayout *ZDLInterface::getTopPane(){
 	QSplitter *rsplit = split->getSplit();
 
 
-	ZDLFilePane *fpane = new ZDLFilePane(rsplit);
+	ZDLFilePane *fpaneL = new ZDLFilePane("file", rsplit);
+	ZDLFilePane *fpaneR = new ZDLFilePane("fileR", rsplit);
 	ZDLSettingsPane *spane = new ZDLSettingsPane(rsplit);
 
-	split->addChild(fpane);
+	split->addChild(fpaneL);
+	split->addChild(fpaneR);
 	split->addChild(spane);
 	box->setSpacing(2);
 	box->addWidget(rsplit);
@@ -159,7 +161,7 @@ QLayout *ZDLInterface::getButtonPane(){
 	QAction *actImportCurrentConfig = actions->addAction("Import current config");
 #endif
 	QAction *clearCurrentGlobalConfig = actions->addAction("Clear current global config");
-	clearCurrentGlobalConfig->setEnabled(false);	
+	clearCurrentGlobalConfig->setEnabled(false);
 
 	//QAction *newDMFlagger = actions->addAction("New DMFlag picker");
 
@@ -201,7 +203,7 @@ QLayout *ZDLInterface::getButtonPane(){
 	btnZDL->setMinimumWidth(minBtnWidth-15);
 	btnEpr->setMinimumWidth(20);
 	btnLaunch->setMinimumWidth(minBtnWidth);
-	
+
 	btnExit->setMinimumHeight(26);
 	btnZDL->setMinimumHeight(26);
 	btnLaunch->setMinimumHeight(26);
@@ -232,6 +234,7 @@ void ZDLInterface::clearAllPWads(){
 	if (section){
 		QVector <ZDLLine*> vctr;
 		section->getRegex("^file[0-9]+d?$", vctr);
+		section->getRegex("^fileR[0-9]+d?$", vctr);
 		for(int i = 0; i < vctr.size(); i++){
 			zconf->deleteValue("zdl.save", vctr[i]->getVariable());
 		}

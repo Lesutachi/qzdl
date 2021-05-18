@@ -2,17 +2,17 @@
  * This file is part of qZDL
  * Copyright (C) 2007-2010  Cody Harris
  * Copyright (C) 2018-2019  Lcferrum
- * 
+ *
  * qZDL is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,9 +28,10 @@
 #include <shlobj.h>
 #endif
 
-ZDLFileList::ZDLFileList(ZDLWidget *parent): 
+ZDLFileList::ZDLFileList(QString savekey, ZDLWidget *parent):
 	ZDLListWidget(parent), basic_fileopendialog(false)
 {
+	this->savekey = savekey;
 	LOGDATAO() << "ZDLFileList" << endl;
 
 	QPushButton *btnFolder = new QPushButton(this);
@@ -65,7 +66,7 @@ ZDLFileList::ZDLFileList(ZDLWidget *parent):
 }
 
 void ZDLFileList::newDrop(QStringList fileList){
-	LOGDATAO() << "newDrop" << endl;	
+	LOGDATAO() << "newDrop" << endl;
 	for (int i=0; i<fileList.size(); i++)
 		insert(new ZDLFileListable(pList, 1001, fileList[i]), -1);
 }
@@ -77,15 +78,16 @@ void ZDLFileList::newConfig(){
 	ZDLSection *section = zconf->getSection("zdl.save");
 	if (section){
 		QVector <ZDLLine*> vctr;
-		section->getRegex("^file[0-9]+d?$", vctr);
+        section->getRegex("^" + savekey + "[0-9]+d?$", vctr);
 		//cout << "I got " << vctr.size() << " matches!" << endl;
 		for(int i = 0; i < vctr.size(); i++){
 			ZDLFileListable *zList = new ZDLFileListable(pList, 1001, vctr[i]->getValue());
+            QFont item_font = zList->font();
+            item_font.setBold(true);
 			if (vctr[i]->getVariable().endsWith("d", Qt::CaseInsensitive)) {
-				QFont item_font=zList->font();
-				item_font.setStrikeOut(true);
-				zList->setFont(item_font);
-			}
+                item_font.setBold(false);
+            }
+            zList->setFont(item_font);
 			insert(zList, -1);
 		}
 	}
@@ -97,7 +99,7 @@ void ZDLFileList::rebuild(){
 	ZDLSection *section = zconf->getSection("zdl.save");
 	if (section){
 		QVector <ZDLLine*> vctr;
-		section->getRegex("^file[0-9]+d?$", vctr);
+        section->getRegex("^" + savekey + "[0-9]+d?$", vctr);
 		//cout << "I got " << vctr.size() << " matches!" << endl;
 		for(int i = 0; i < vctr.size(); i++){
 			// Can't use the section to perform this operation
@@ -109,9 +111,9 @@ void ZDLFileList::rebuild(){
 	//cout << "Building lines" << endl;
 	for(int i = 0; i < count(); i++){
 		QListWidgetItem *itm = pList->item(i);
-		ZDLFileListable* fitm = (ZDLFileListable*)itm;
-		QString name=QString("file%1").arg(i);
-		if (fitm->font().strikeOut()) name.append("d");
+        ZDLFileListable *fitm = (ZDLFileListable*)itm;
+        QString name=QString("%1%2").arg(savekey).arg(i);
+        if (!fitm->font().bold()) name.append("d");
 		zconf->setValue("zdl.save", name, fitm->getFile());
 	}
 
@@ -143,10 +145,7 @@ void ZDLFileList::editButton(QListWidgetItem * item)
 {
 	if (item) {
 		QFont item_font=item->font();
-		if (item_font.strikeOut())
-			item_font.setStrikeOut(false);
-		else
-			item_font.setStrikeOut(true);
+		item_font.setBold(!item_font.bold());
 		item->setFont(item_font);
 	}
 }
@@ -157,7 +156,7 @@ void ZDLFileList::editButton(const QList<QListWidgetItem*> &items)
 	bool disable_all=true;
 
 	foreach (QListWidgetItem *item, items) {
-		if (!item->font().strikeOut()) {
+		if (item->font().bold()) {
 			en_items.append(item);
 			disable_all=false;
 		}

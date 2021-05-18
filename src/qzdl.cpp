@@ -2,17 +2,17 @@
  * This file is part of qZDL
  * Copyright (C) 2007-2010  Cody Harris
  * Copyright (C) 2018-2019  Lcferrum
- * 
+ *
  * qZDL is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -40,12 +40,15 @@ void clearFiles(ZDLConf* zconf)
 	if (section){
 		QVector <ZDLLine*> vctr;
 		section->getRegex("^file[0-9]+d?$", vctr);
+		section->getRegex("^fileR[0-9]+d?$", vctr);
 		for(int i = 0; i < vctr.size(); i++){
 			zconf->deleteValue("zdl.save", vctr[i]->getVariable());
 		}
 	}
 }
 
+// Adding files from argv. No need to deal with fileR stuff.
+// Add them all to the first panel.
 void addFile(QString file, ZDLConf* zconf)
 {
 	LOGDATA() << "Adding " << file << " to " << (void*)zconf << endl;
@@ -92,7 +95,7 @@ int main( int argc, char **argv ){
 	QFile *loggingFile = NULL;
 	zdlDebug = NULL;
 	int logger = eatenArgs.indexOf("--enable-logger");
-	
+
 	if(logger >= 0){
 		eatenArgs.removeAt(logger);
 		loggingFile = new QFile("zdl.log");
@@ -166,7 +169,7 @@ int main( int argc, char **argv ){
 						LOGDATA() << "Using user-level config file at " << userConfPath << endl;
 					}else{
 						LOGDATA() << "Config file specified nouserconf" << endl;
-					}			
+					}
 				}else{
 					LOGDATA() << "User config file is small" << endl;
 				}
@@ -281,6 +284,7 @@ int main( int argc, char **argv ){
 	}
 	if (!doSave){
 		tconf->deleteRegex("zdl.save", "^file[0-9]+$");
+		tconf->deleteRegex("zdl.save", "^fileR[0-9]+$");
 	}
 
 	tconf->writeINI(ZDLConfigurationManager::getConfigFileName());
